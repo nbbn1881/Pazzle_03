@@ -66,10 +66,10 @@ public class PlayerMove : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         //衝突してほしいゲームオブジェクトでなければ抜ける
-        if (other.gameObject.tag != "Piece")
-        {
-            return;
-        }
+        //if (other.gameObject.tag != "Piece")
+        //{
+        //    return;
+        //}
 
         //other.transform.position = saveThisObjPosition;
         other.transform.DOMove((saveThisObjPosition),0.1f);

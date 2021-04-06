@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Piece
+  - Piece_Vertical
+  - Piece_Horizontal
+  - Piece_LeftToDown
+  - Piece_LeftToUp
+  - Piece_RightToDown
+  - Piece_RightToUp
   layers:
   - Default
   - TransparentFX
