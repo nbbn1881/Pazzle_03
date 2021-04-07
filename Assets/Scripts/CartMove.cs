@@ -6,13 +6,13 @@ using DG.Tweening;
 
 public class CartMove : MonoBehaviour
 {
-
+    //レイのベクトルを格納(斜め下45°)
 	Vector3 northRay = new Vector3(0,-5.0f,5.0f);	//北
 	Vector3 southRay = new Vector3(0,-5.0f,-5.0f);	//南
 	Vector3 eastRay =  new Vector3(5,-5.0f,0);		//東
 	Vector3 westRay =  new Vector3(-5,-5.0f,0);		//西
 
-    float cartSpeed = 5.0f;
+    float cartSpeed = 5.0f;//初期スピード
 
     // レイの衝突情報を格納する
     RaycastHit northRaycastHit = default;
@@ -20,22 +20,18 @@ public class CartMove : MonoBehaviour
     RaycastHit eastRaycastHit = default;
     RaycastHit westRaycastHit = default;
 
-
-
-
-
     // レイの距離
     [SerializeField]
     float distance = 1;
 
-    // レイキャストに使用するマスク
+    // レイキャストに使用するマスク ※現在未使用
     [SerializeField]
     LayerMask mask = default;
 
     /// <summary>
     /// 更新
     /// </summary>
-    void Update()
+    void update()
     {
         // レイを生成
         Ray northRay = new Ray(transform.position, new Vector3(0,-5.0f,5.0f));
@@ -55,6 +51,16 @@ public class CartMove : MonoBehaviour
             // 衝突したオブジェクトの名前をログに表示する
             //Debug.Log(northRaycastHit.collider.gameObject.name);
         }
+         if (Physics.Raycast(eastRay,out eastRaycastHit, distance,mask,QueryTriggerInteraction.Collide))
+        {
+            // 衝突したオブジェクトの名前をログに表示する
+            //Debug.Log(northRaycastHit.collider.gameObject.name);
+        }
+         if (Physics.Raycast(westRay,out westRaycastHit, distance,mask,QueryTriggerInteraction.Collide))
+        {
+            // 衝突したオブジェクトの名前をログに表示する
+            //Debug.Log(northRaycastHit.collider.gameObject.name);
+        }
 
         // レイを可視化する
         Debug.DrawRay(northRay.origin, northRay.direction * distance,Color.red);
@@ -62,7 +68,6 @@ public class CartMove : MonoBehaviour
         Debug.DrawRay(westRay.origin, westRay.direction * distance,Color.red);
         Debug.DrawRay(eastRay.origin, eastRay.direction * distance,Color.red);
     }
-
 
     // Start is called before the first frame update
     void Start()
@@ -76,13 +81,13 @@ public class CartMove : MonoBehaviour
 
     //垂直 南から
     void FromSouthVertical()
-    {
+    {   //   このオブジェクトを                          この座標に             このスピードで
         this.gameObject.transform.DOLocalMove(new Vector3(0, 0, 0.9f), cartSpeed)
             .SetRelative()          //相対移動
-            .SetEase(Ease.Linear)  //一定の速さ
-			.OnComplete(() =>
+            .SetEase(Ease.Linear)   //一定の速さ
+			.OnComplete(() =>       //移動完了後にこのメソッドを実行
 			{
-                FromSouth();//
+                FromSouth();
 			});
     }
 
@@ -94,78 +99,37 @@ public class CartMove : MonoBehaviour
             .SetEase(Ease.Linear)  //一定の速さ
 			.OnComplete(() =>
 			{
-                //FromNorth();
+                FromNorth();
 			});
     }
 
-    //水平 東から
+    // ━ 東から
     void FromEastHorizontal()
-    {
-        this.gameObject.transform.DOLocalMove(new Vector3(0.9f, 0, 0f), cartSpeed)
-            .SetRelative()          //相対移動
-            .SetEase(Ease.Linear)  //一定の速さ
-			.OnComplete(() =>
-			{
-                //FromWest();
-			});
-    }
-
-    //水平 西から
-    void FromWestHorizontal()
     {
         this.gameObject.transform.DOLocalMove(new Vector3(-0.9f, 0, 0f), cartSpeed)
             .SetRelative()          //相対移動
             .SetEase(Ease.Linear)  //一定の速さ
 			.OnComplete(() =>
 			{
-                //FromEast();
+                Debug.Log("test");
+                FromEast();
 			});
     }
 
-    //左と下 南から
-    void FromSouthLeftToDown()
+    // ━ 西から
+    void FromWestHorizontal()
     {
-        Debug.Log("FromSouthLeftToDownメソッド");
-        var sequence = DOTween.Sequence();
-
-        sequence.Append(
-                    this.gameObject.transform.DOLocalMove(new Vector3(0, 0f, 0.6f), cartSpeed/2)
-                        .SetRelative()
-                        .SetEase(Ease.Linear))
-                .Append(
-                    this.gameObject.transform.DOLocalMove(new Vector3(-0.4f, 0, 0f), cartSpeed/2)
-                        .SetRelative()          //相対移動
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
-                .AppendCallback(() =>
-                {
-                    FromEast();
-                }
-                );
+        this.gameObject.transform.DOLocalMove(new Vector3(0.9f, 0, 0f), cartSpeed)
+            .SetRelative()          //相対移動
+            .SetEase(Ease.Linear)  //一定の速さ
+			.OnComplete(() =>
+			{
+                Debug.Log("test");
+                FromWest();
+			});
     }
 
-    ///左と下 西から
-    void FromWestLeftToDown()
-    {
-        var sequence = DOTween.Sequence();
-
-        sequence.Append(
-                    this.gameObject.transform.DOLocalMove(new Vector3(0.6f, 0f, 0f), cartSpeed/2)
-                        .SetRelative()
-                        .SetEase(Ease.Linear))
-                .Append(
-                    this.gameObject.transform.DOLocalMove(new Vector3(0f, 0, -0.4f), cartSpeed/2)
-                        .SetRelative()          //相対移動
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
-                .AppendCallback(() =>
-                {
-                    FromNorth();
-                }
-                );
-    }
-
-    ///右と下 東から
+    // ┏ 東から
     void FromEastRightToDown()
     {
         var sequence = DOTween.Sequence();
@@ -182,11 +146,12 @@ public class CartMove : MonoBehaviour
                 .AppendCallback(() =>
                 {
                     FromNorth();
+                    Debug.Log("test");
                 }
                 );
     }
 
-    ///右と下 南から
+    // ┏ 南から
     void FromSouthRightToDown()
     {
         var sequence = DOTween.Sequence();
@@ -207,6 +172,132 @@ public class CartMove : MonoBehaviour
                 );
     }
 
+    // ┗ 東から
+    void FromEastRightToUp()
+    {
+        var sequence = DOTween.Sequence();
+
+        sequence.Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(-0.6f, 0f, 0f), cartSpeed/2)
+                        .SetRelative()
+                        .SetEase(Ease.Linear))
+                .Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(0f, 0, 0.4f), cartSpeed/2)
+                        .SetRelative()          //相対移動
+                        .SetEase(Ease.Linear)  //一定の速さ
+                        )
+                .AppendCallback(() =>
+                {
+                    FromSouth();
+                    Debug.Log("test");
+                }
+                );
+    }
+
+    // ┗ 北から
+    void FromNorthRightToUp()
+    {
+        var sequence = DOTween.Sequence();
+
+        sequence.Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(0, 0f, -0.6f), cartSpeed/2)
+                        .SetRelative()
+                        .SetEase(Ease.Linear))
+                .Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(0.4f, 0, 0), cartSpeed/2)
+                        .SetRelative()          //相対移動
+                        .SetEase(Ease.Linear)  //一定の速さ
+                        )
+                .AppendCallback(() =>
+                {
+                    FromWest();
+                    Debug.Log("test");
+                }
+                );
+    }
+
+
+    // ┛ 西から
+    void FromWestLeftToUp()
+    {
+        var sequence = DOTween.Sequence();
+
+        sequence.Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(0.6f, 0f, 0f), cartSpeed/2)
+                        .SetRelative()
+                        .SetEase(Ease.Linear))
+                .Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(0f, 0, 0.4f), cartSpeed/2)
+                        .SetRelative()          //相対移動
+                        .SetEase(Ease.Linear)  //一定の速さ
+                        )
+                .AppendCallback(() =>
+                {
+                    FromSouth();
+                });
+    }
+
+    // ┛ 北から
+    void FromNorthLeftToUp()
+    {
+        var sequence = DOTween.Sequence();
+
+        sequence.Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(0f, 0f,-0.6f), cartSpeed/2)
+                        .SetRelative()
+                        .SetEase(Ease.Linear))
+                .Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(-0.4f, 0, 0f), cartSpeed/2)
+                        .SetRelative()          //相対移動
+                        .SetEase(Ease.Linear)  //一定の速さ
+                        )
+                .AppendCallback(() =>
+                {
+                    FromEast();
+                });
+    }
+
+    // ┓ 南から
+    void FromSouthLeftToDown()
+    {
+        Debug.Log("FromSouthLeftToDownメソッド");
+        var sequence = DOTween.Sequence();
+
+        sequence.Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(0, 0f, 0.6f), cartSpeed/2)
+                        .SetRelative()
+                        .SetEase(Ease.Linear))
+                .Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(-0.4f, 0, 0f), cartSpeed/2)
+                        .SetRelative()          //相対移動
+                        .SetEase(Ease.Linear)  //一定の速さ
+                        )
+                .AppendCallback(() =>
+                {
+                    FromEast();
+                });
+    }
+
+    // ┓ 西から
+    void FromWestLeftToDown()
+    {
+        var sequence = DOTween.Sequence();
+
+        sequence.Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(0.6f, 0f, 0f), cartSpeed/2)
+                        .SetRelative()
+                        .SetEase(Ease.Linear))
+                .Append(
+                    this.gameObject.transform.DOLocalMove(new Vector3(0f, 0, -0.4f), cartSpeed/2)
+                        .SetRelative()          //相対移動
+                        .SetEase(Ease.Linear)  //一定の速さ
+                        )
+                .AppendCallback(() =>
+                {
+                    FromNorth();
+                });
+
+    }
 
 
     //*****************************************************************************
@@ -220,6 +311,8 @@ public class CartMove : MonoBehaviour
         if(southRaycastHit.collider.gameObject.CompareTag("Piece_Horizontal")
         || southRaycastHit.collider.gameObject.CompareTag("Piece_LeftToDown")
         || southRaycastHit.collider.gameObject.CompareTag("Piece_RightToDown")
+        || northRaycastHit.collider.gameObject.CompareTag("Ground")
+        || northRaycastHit.collider.gameObject.CompareTag("Player")
         )
 
         {
@@ -235,13 +328,13 @@ public class CartMove : MonoBehaviour
 
         if(southRaycastHit.collider.gameObject.CompareTag("Piece_LeftToUp"))
         {
-            Debug.Log("南から左折");
-            //FromNorthLeftToUp();
+            Debug.Log("北から左折");
+            FromNorthLeftToUp();
         }
         if(southRaycastHit.collider.gameObject.CompareTag("Piece_RightToUp"))
         {
-            Debug.Log("南から右折");
-            //FromNorthRightToUp();
+            Debug.Log("北から右折");
+            FromNorthRightToUp();
         }
     }
 
@@ -252,8 +345,9 @@ public class CartMove : MonoBehaviour
         if(northRaycastHit.collider.gameObject.CompareTag("Piece_Horizontal")
         || northRaycastHit.collider.gameObject.CompareTag("Piece_LeftToUp")
         || northRaycastHit.collider.gameObject.CompareTag("Piece_RightToUp")
+        || northRaycastHit.collider.gameObject.CompareTag("Ground")
+        || northRaycastHit.collider.gameObject.CompareTag("Player")
         )
-
         {
             //ゲームオーバーメソッドへ
             Debug.Log("GameOver");
@@ -280,34 +374,37 @@ public class CartMove : MonoBehaviour
     //東から
     void FromEast()
     {
+        Debug.Log("test");
         //東から進めないピースならゲームオーバー
-        if(eastRaycastHit.collider.gameObject.CompareTag("Piece_Vertical")
-        || eastRaycastHit.collider.gameObject.CompareTag("Piece_LeftToUp")
-        || eastRaycastHit.collider.gameObject.CompareTag("Piece_LeftToDown")
+        if(westRaycastHit.collider.gameObject.CompareTag("Piece_Vertical")
+        || westRaycastHit.collider.gameObject.CompareTag("Piece_LeftToUp")
+        || westRaycastHit.collider.gameObject.CompareTag("Piece_LeftToDown")
+        || northRaycastHit.collider.gameObject.CompareTag("Ground")
+        || northRaycastHit.collider.gameObject.CompareTag("Player")
         )
         {
             Debug.Log("GameOver");
         }
 
         //東から西
-        if(eastRaycastHit.collider.gameObject.CompareTag("Piece_Horizontal"))
+        if(westRaycastHit.collider.gameObject.CompareTag("Piece_Horizontal"))
         {
             Debug.Log("Horizontalなので直進");
             FromEastHorizontal();
         }
 
         //東から南
-        if(eastRaycastHit.collider.gameObject.CompareTag("Piece_RightToDown"))
+        if(westRaycastHit.collider.gameObject.CompareTag("Piece_RightToDown"))
         {
             Debug.Log("東から南");
             FromEastRightToDown();
         }
 
         //東から北
-        if(eastRaycastHit.collider.gameObject.CompareTag("Piece_RightToUp"))
+        if(westRaycastHit.collider.gameObject.CompareTag("Piece_RightToUp"))
         {
             Debug.Log("東から北");
-            //FromEastRightToUp();
+            FromEastRightToUp();
         }
     }
 
@@ -315,9 +412,11 @@ public class CartMove : MonoBehaviour
     void FromWest()
     {
         //西から進めないピースならゲームオーバー
-        if(westRaycastHit.collider.gameObject.CompareTag("Piece_Vertical")
-        || westRaycastHit.collider.gameObject.CompareTag("Piece_RightToUp")
-        || westRaycastHit.collider.gameObject.CompareTag("Piece_RightToDown")
+        if(eastRaycastHit.collider.gameObject.CompareTag("Piece_Vertical")
+        || eastRaycastHit.collider.gameObject.CompareTag("Piece_RightToUp")
+        || eastRaycastHit.collider.gameObject.CompareTag("Piece_RightToDown")
+        || northRaycastHit.collider.gameObject.CompareTag("Ground")
+        || northRaycastHit.collider.gameObject.CompareTag("Player")
         )
         {
             Debug.Log("GameOver");
@@ -334,18 +433,14 @@ public class CartMove : MonoBehaviour
         if(eastRaycastHit.collider.gameObject.CompareTag("Piece_LeftToDown"))
         {
             Debug.Log("西から南");
-            //FromEastLeftToDown();
+            FromWestLeftToDown();
         }
 
         //西から北
         if(eastRaycastHit.collider.gameObject.CompareTag("Piece_LeftToUp"))
         {
             Debug.Log("西から北");
-            //FromEastLeftToUp();
+            FromWestLeftToUp();
         }
     }
-
-
-
-
 }

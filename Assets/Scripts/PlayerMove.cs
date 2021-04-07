@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour
             x_MoveCount -= 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) && x_MoveCount < 4)
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && x_MoveCount < 4)
         {
             saveThisObjPosition = this.gameObject.transform.position;
             this.gameObject.transform.DOLocalMove(new Vector3(1, 0, 0), 0.1f).SetRelative();
@@ -44,7 +44,7 @@ public class PlayerMove : MonoBehaviour
             x_MoveCount += 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && z_MoveCount < 3)
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && z_MoveCount < 3)
         {
             saveThisObjPosition = this.gameObject.transform.position;
             this.gameObject.transform.DOLocalMove(new Vector3(0, 0, 1), 0.1f).SetRelative();
@@ -53,7 +53,7 @@ public class PlayerMove : MonoBehaviour
             z_MoveCount += 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && z_MoveCount > -2)
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && z_MoveCount > -2)
         {
             saveThisObjPosition = this.gameObject.transform.position;
             this.gameObject.transform.DOLocalMove(new Vector3(0, 0, -1), 0.1f).SetRelative();
