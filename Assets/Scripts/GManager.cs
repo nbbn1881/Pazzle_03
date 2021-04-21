@@ -8,7 +8,7 @@ public class GManager : MonoBehaviour
     public static GManager instance = null;
     private AudioSource audioSource = null;
     public Text scoreText; // スコアText
-    public float score; // スコア
+    private float score; // スコア
     int seconds;
 
     private void Awake()
