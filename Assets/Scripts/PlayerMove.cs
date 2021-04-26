@@ -8,10 +8,9 @@ public class PlayerMove : MonoBehaviour
 {
     [Header("アイテム取得時に鳴らすSE")] public AudioClip CursorMove3;
     // Start is called before the first frame update
-    void Start()
-    {
 
-    }
+    private bool buttonEnabled = true;//連打対策
+    private WaitForSeconds waitOneSecond = new WaitForSeconds(1.0f);
 
     int x_MoveCount = 1;//初期位置
     int z_MoveCount = 1;
@@ -19,54 +18,69 @@ public class PlayerMove : MonoBehaviour
     Vector3 saveThisObjPosition;
 
 
+    // ボタンの制限を解除するコルーチン
+    // private IEnumerator EnableButton()
+    // {
+    //     // 1秒後に解除
+    //     yield return waitOneSecond;
+    //     buttonEnabled = true;
+    // }
+
+
     void Update()
     {
 
-        if (Input.anyKey == false)
-        {
-            return;
-        }
+        // 制限中は動作させない
+        // if (buttonEnabled == false)
+        // {
+        //     return;
+        // }
 
-        thisObjPosition = this.gameObject.transform.position;
+        // 制限されていない場合
+        // else
+        // {
+            // Debug.Log("Clicked !!");
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && x_MoveCount > -1)
-        {
-            GManager.instance.PlaySE(CursorMove3);
-            saveThisObjPosition = this.gameObject.transform.position;//移動前の位置を保存してからポジションを変更
-            this.gameObject.transform.DOLocalMove(new Vector3(-1, 0, 0), 0.1f).SetRelative();
-            this.gameObject.transform.position = thisObjPosition;
-            x_MoveCount -= 1;
-        }
+            // ボタンを制限する
+            // buttonEnabled = false;
 
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && x_MoveCount < 4)
-        {
-            GManager.instance.PlaySE(CursorMove3);
-            saveThisObjPosition = this.gameObject.transform.position;
-            this.gameObject.transform.DOLocalMove(new Vector3(1, 0, 0), 0.1f).SetRelative();
-            //thisObjPosition.x += 1;
-            this.gameObject.transform.position = thisObjPosition;
-            x_MoveCount += 1;
-        }
+            // // 一定時間経過後に解除
+            // StartCoroutine(EnableButton());
+            thisObjPosition = this.gameObject.transform.position;
 
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && z_MoveCount < 3)
-        {
-            GManager.instance.PlaySE(CursorMove3);
-            saveThisObjPosition = this.gameObject.transform.position;
-            this.gameObject.transform.DOLocalMove(new Vector3(0, 0, 1), 0.1f).SetRelative();
-            //thisObjPosition.z += 1;
-            this.gameObject.transform.position = thisObjPosition;
-            z_MoveCount += 1;
-        }
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && x_MoveCount > -1)
+            {
+                //Debug.Log("下");
+                saveThisObjPosition = this.gameObject.transform.position;
+                thisObjPosition.x -= 1;
+                this.gameObject.transform.position = thisObjPosition;
+                x_MoveCount -= 1;
+            }
 
-        else if (Input.GetKeyDown(KeyCode.DownArrow) && z_MoveCount > -2)
-        {
-            GManager.instance.PlaySE(CursorMove3);
-            saveThisObjPosition = this.gameObject.transform.position;
-            this.gameObject.transform.DOLocalMove(new Vector3(0, 0, -1), 0.1f).SetRelative();
-            //thisObjPosition.z -= 1;
-            this.gameObject.transform.position = thisObjPosition;
-            z_MoveCount -= 1;
-        }
+            if (Input.GetKeyDown(KeyCode.RightArrow) && x_MoveCount < 4)
+            {
+                saveThisObjPosition = this.gameObject.transform.position;
+                thisObjPosition.x += 1;
+                this.gameObject.transform.position = thisObjPosition;
+                x_MoveCount += 1;
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow) && z_MoveCount < 3)
+            {
+                saveThisObjPosition = this.gameObject.transform.position;
+                thisObjPosition.z += 1;
+                this.gameObject.transform.position = thisObjPosition;
+                z_MoveCount += 1;
+            }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow) && z_MoveCount > -2)
+            {
+                saveThisObjPosition = this.gameObject.transform.position;
+                thisObjPosition.z -= 1;
+                this.gameObject.transform.position = thisObjPosition;
+                z_MoveCount -= 1;
+            }
+        // }
     }
 
     void OnTriggerStay(Collider other)
