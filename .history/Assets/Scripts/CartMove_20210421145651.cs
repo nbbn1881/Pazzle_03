@@ -87,7 +87,6 @@ public class CartMove : MonoBehaviour
     //垂直 南から
     void FromSouthVertical()
     {
-        Debug.Log("FromSouthVertical");
         this.gameObject.transform.DOLocalMove(new Vector3(0, 0, 0.9f), cartSpeed)
             .SetRelative()          //相対移動
             .SetEase(Ease.Linear)  //一定の速さ
@@ -100,7 +99,6 @@ public class CartMove : MonoBehaviour
     //垂直 北から
     void FromNorthVertical()
     {
-        Debug.Log("FromNorthVertical");
         this.gameObject.transform.DOLocalMove(new Vector3(0, 0, -0.9f), cartSpeed)
             .SetRelative()          //相対移動
             .SetEase(Ease.Linear)  //一定の速さ
@@ -113,8 +111,8 @@ public class CartMove : MonoBehaviour
     //水平 東から
     void FromEastHorizontal()
     {
-        Debug.Log("FromEastHorizontal");
-        this.gameObject.transform.DOLocalMove(new Vector3(-0.9f, 0, 0f), cartSpeed)
+        Debug.Log("水平 東から西");
+        this.gameObject.transform.DOLocalMove(new Vector3(0.9f, 0, 0f), cartSpeed)
             .SetRelative()          //相対移動
             .SetEase(Ease.Linear)  //一定の速さ
 			.OnComplete(() =>
@@ -126,7 +124,7 @@ public class CartMove : MonoBehaviour
     //水平 西から
     void FromWestHorizontal()
     {
-        Debug.Log("FromWestHorizontal");
+        Debug.Log("水平 西から東");
         this.gameObject.transform.DOLocalMove(new Vector3(0.9f, 0, 0f), cartSpeed)
             .SetRelative()          //相対移動
             .SetEase(Ease.Linear)  //一定の速さ
@@ -139,7 +137,7 @@ public class CartMove : MonoBehaviour
     //左と下 南から
     void FromSouthLeftToDown()
     {
-        Debug.Log("FromSouthLeftToDown");
+        Debug.Log("FromSouthLeftToDownメソッド");
         var sequence = DOTween.Sequence();
 
         sequence.Append(
@@ -160,7 +158,7 @@ public class CartMove : MonoBehaviour
     ///左と下 西から
     void FromWestLeftToDown()
     {
-        Debug.Log("FromWestLeftToDown");
+        Debug.Log("西から南");
         var sequence = DOTween.Sequence();
 
         sequence.Append(
@@ -182,7 +180,6 @@ public class CartMove : MonoBehaviour
     ///左と上 西から
     void FromWestLeftToUp()
     {
-        Debug.Log("FromWestLeftToUp");
         var sequence = DOTween.Sequence();
 
         sequence.Append(
@@ -204,11 +201,10 @@ public class CartMove : MonoBehaviour
     ///左と上 北から
     void FromNorthLeftToUp()
     {
-        Debug.Log("FromNorthLeftToUp");
         var sequence = DOTween.Sequence();
 
         sequence.Append(
-                    this.gameObject.transform.DOLocalMove(new Vector3(0f, 0f, -0.6f), cartSpeed/2)
+                    this.gameObject.transform.DOLocalMove(new Vector3(0f, 0f, 0.6f), cartSpeed/2)
                         .SetRelative()
                         .SetEase(Ease.Linear))
                 .Append(
@@ -218,7 +214,7 @@ public class CartMove : MonoBehaviour
                         )
                 .OnComplete(() =>
                 {
-                    FromEast();
+                    FromSouth();
                 }
                 );
     }
@@ -227,7 +223,6 @@ public class CartMove : MonoBehaviour
     ///右と下 東から
     void FromEastRightToDown()
     {
-        Debug.Log("FromEastRightToDown");
         var sequence = DOTween.Sequence();
 
         sequence.Append(
@@ -249,7 +244,6 @@ public class CartMove : MonoBehaviour
     ///右と下 南から
     void FromSouthRightToDown()
     {
-        Debug.Log("FromSouthRightToDown");
         var sequence = DOTween.Sequence();
 
         sequence.Append(
@@ -271,7 +265,6 @@ public class CartMove : MonoBehaviour
     ///右と上 北から
     void FromNorthRightToUp()
     {
-        Debug.Log("FromNorthRightToU");
         var sequence = DOTween.Sequence();
 
         sequence.Append(
@@ -293,7 +286,7 @@ public class CartMove : MonoBehaviour
     ///右と上 東から
     void FromEastRightToUp()
     {
-        Debug.Log("FromEastRightToUp");
+        Debug.Log("右と上 東から");
         var sequence = DOTween.Sequence();
 
         sequence.Append(
@@ -336,18 +329,18 @@ public class CartMove : MonoBehaviour
 
         if(southRaycastHit.collider.gameObject.CompareTag("Piece_Vertical"))
         {
-            Debug.Log("FromNorthVerticalへ");
+            Debug.Log("Verticalなので直進");
             FromNorthVertical();
         }
 
         if(southRaycastHit.collider.gameObject.CompareTag("Piece_LeftToUp"))
         {
-            Debug.Log("FromNorthLeftToUpへ");
+            Debug.Log("南から左折");
             FromNorthLeftToUp();
         }
         if(southRaycastHit.collider.gameObject.CompareTag("Piece_RightToUp"))
         {
-            Debug.Log("FromNorthRightToUpへ");
+            Debug.Log("南から右折");
             FromNorthRightToUp();
         }
     }
@@ -369,18 +362,18 @@ public class CartMove : MonoBehaviour
 
         if(northRaycastHit.collider.gameObject.CompareTag("Piece_Vertical"))
         {
-            Debug.Log("FromSouthVerticalへ");
+            Debug.Log("Verticalなので直進");
             FromSouthVertical();
         }
 
         if(northRaycastHit.collider.gameObject.CompareTag("Piece_LeftToDown"))
         {
-            Debug.Log("FromSouthLeftToDownへ");
+            Debug.Log("南から左折");
             FromSouthLeftToDown();
         }
         if(northRaycastHit.collider.gameObject.CompareTag("Piece_RightToDown"))
         {
-            Debug.Log("FromSouthRightToDownへ");
+            Debug.Log("南から右折");
             FromSouthRightToDown();
         }
     }
@@ -401,21 +394,21 @@ public class CartMove : MonoBehaviour
         //東から西
         if(westRaycastHit.collider.gameObject.CompareTag("Piece_Horizontal"))
         {
-            Debug.Log("FromEastHorizontalへ");
+            Debug.Log("Horizontalなので直進");
             FromEastHorizontal();
         }
 
         //東から南
         if(westRaycastHit.collider.gameObject.CompareTag("Piece_RightToDown"))
         {
-            Debug.Log("FromEastRightToDownへ");
+            Debug.Log("東から南");
             FromEastRightToDown();
         }
 
         //東から北
         if(westRaycastHit.collider.gameObject.CompareTag("Piece_RightToUp"))
         {
-            Debug.Log("FromEastRightToUpへ");
+            Debug.Log("東から北");
             FromEastRightToUp();
         }
         Debug.Log("FromEast終了");
@@ -437,21 +430,21 @@ public class CartMove : MonoBehaviour
         //西から東
         if(eastRaycastHit.collider.gameObject.CompareTag("Piece_Horizontal"))
         {
-            Debug.Log("FromWestHorizontalへ");
+            Debug.Log("Horizontalなので直進(西から東)");
             FromWestHorizontal();
         }
 
         //西から南
         if(eastRaycastHit.collider.gameObject.CompareTag("Piece_LeftToDown"))
         {
-            Debug.Log("FromWestLeftToDownへ");
+            Debug.Log("西から南");
             FromWestLeftToDown();
         }
 
         //西から北
         if(eastRaycastHit.collider.gameObject.CompareTag("Piece_LeftToUp"))
         {
-            Debug.Log("FromWestLeftToUpへ");
+            Debug.Log("西から北");
             FromWestLeftToUp();
         }
     }

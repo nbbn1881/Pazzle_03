@@ -208,7 +208,7 @@ public class CartMove : MonoBehaviour
         var sequence = DOTween.Sequence();
 
         sequence.Append(
-                    this.gameObject.transform.DOLocalMove(new Vector3(0f, 0f, -0.6f), cartSpeed/2)
+                    this.gameObject.transform.DOLocalMove(new Vector3(0f, 0f, 0.6f), cartSpeed/2)
                         .SetRelative()
                         .SetEase(Ease.Linear))
                 .Append(
@@ -218,7 +218,7 @@ public class CartMove : MonoBehaviour
                         )
                 .OnComplete(() =>
                 {
-                    FromEast();
+                    FromSouth();
                 }
                 );
     }

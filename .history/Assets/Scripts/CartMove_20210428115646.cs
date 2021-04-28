@@ -218,7 +218,7 @@ public class CartMove : MonoBehaviour
                         )
                 .OnComplete(() =>
                 {
-                    FromEast();
+                    FromSouth();
                 }
                 );
     }
