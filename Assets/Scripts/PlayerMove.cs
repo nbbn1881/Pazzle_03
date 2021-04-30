@@ -9,8 +9,6 @@ public class PlayerMove : MonoBehaviour
     [Header("アイテム取得時に鳴らすSE")] public AudioClip CursorMove3;
     // Start is called before the first frame update
 
-    private bool buttonEnabled = true;//連打対策
-    private WaitForSeconds waitOneSecond = new WaitForSeconds(1.0f);
 
     int x_MoveCount = 1;//初期位置
     int z_MoveCount = 1;
