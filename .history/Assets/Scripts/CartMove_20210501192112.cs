@@ -12,7 +12,7 @@ public class CartMove : MonoBehaviour
 	Vector3 eastRay =  new Vector3(5,-5.0f,0);		//東
 	Vector3 westRay =  new Vector3(-5,-5.0f,0);		//西
 
-    float cartSpeed = 7.0f;//初期スピード
+    float cartSpeed = 5.0f;
 
     // レイの衝突情報を格納する
     RaycastHit northRaycastHit = default;
@@ -77,19 +77,7 @@ public class CartMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DOVirtual.DelayedCall (3f, ()=>CartStart());//3秒遅延
-    }
-
-    void CartStart()
-    {
-        Debug.Log("CartStart");
-        this.gameObject.transform.DOLocalMove(new Vector3(0, 0, 0.8f), cartSpeed)
-            .SetRelative()          //相対移動
-            .SetEase(Ease.Linear)  //一定の速さ
-			.OnComplete(() =>
-			{
-                FromSouth();//
-			});
+        DOVirtual.DelayedCall (3f, ()=>FromSouthVertical());//3秒遅延
     }
 
     //*****************************************************************************

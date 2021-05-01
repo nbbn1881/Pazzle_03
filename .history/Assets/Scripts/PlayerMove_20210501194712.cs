@@ -27,7 +27,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         time += Time.deltaTime;
-        if( time >= 0.05f)
+        if( time >= 0.1f)
         {
             thisObjPosition = this.gameObject.transform.position;
 

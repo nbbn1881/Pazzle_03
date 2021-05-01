@@ -12,7 +12,7 @@ public class CartMove : MonoBehaviour
 	Vector3 eastRay =  new Vector3(5,-5.0f,0);		//東
 	Vector3 westRay =  new Vector3(-5,-5.0f,0);		//西
 
-    float cartSpeed = 7.0f;//初期スピード
+    float cartSpeed = 10.0f;//初期スピード
 
     // レイの衝突情報を格納する
     RaycastHit northRaycastHit = default;
