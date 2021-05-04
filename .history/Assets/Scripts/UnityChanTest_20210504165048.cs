@@ -8,8 +8,7 @@ public class UnityChanTest : MonoBehaviour
     Animator animator;
 
     // スタート時に呼ばれる
-    void Start ()
-    {
+    void Start () {
         animator = GetComponent<Animator>();
     }
 
@@ -33,6 +32,6 @@ public class UnityChanTest : MonoBehaviour
         }
         */
     //}
-}
+
 
 

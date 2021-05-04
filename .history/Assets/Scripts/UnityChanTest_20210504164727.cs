@@ -8,14 +8,12 @@ public class UnityChanTest : MonoBehaviour
     Animator animator;
 
     // スタート時に呼ばれる
-    void Start ()
-    {
+    void Start () {
         animator = GetComponent<Animator>();
     }
 
-
     // フレーム毎に呼ばれる
-    //void Update () {
+    void Update () {
         /*
         // 前進
         if (Input.GetKey("up")) {
@@ -32,7 +30,12 @@ public class UnityChanTest : MonoBehaviour
             transform.Rotate(0, 1, 0);
         }
         */
-    //}
+    }
+
+    void TurnLeft()
+    {
+        transform.DOLocalRotate(new Vector3(0, 0, 90f), 6f)
+        .SetEase(Ease.Linear)
+        .SetLoops(-1, LoopType.Restart);
+    }
 }
-
-
