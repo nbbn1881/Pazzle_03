@@ -6,8 +6,6 @@ using DG.Tweening;
 
 public class CartMove : MonoBehaviour
 {
-    private Animator animator;
-
 
 	Vector3 northRay = new Vector3(0,-5.0f,5.0f);	//北
 	Vector3 southRay = new Vector3(0,-5.0f,-5.0f);	//南
@@ -15,7 +13,6 @@ public class CartMove : MonoBehaviour
 	Vector3 westRay =  new Vector3(-5,-5.0f,0);		//西
 
     float cartSpeed = 7.0f;//初期スピード
-    float rotateSpeed = 0.5f;//回転速度
 
     // レイの衝突情報を格納する
     RaycastHit northRaycastHit = default;
@@ -38,13 +35,6 @@ public class CartMove : MonoBehaviour
     [SerializeField]
     LayerMask mask = default;
 
-    void Start()
-    {
-        this.animator = GetComponent<Animator>();
-        animator.SetBool("is_walking",false);
-        DOVirtual.DelayedCall (3f, ()=>CartStart());//3秒遅延
-    }
-
     /// <summary>
     /// 更新
     /// </summary>
@@ -56,21 +46,26 @@ public class CartMove : MonoBehaviour
         //座標を取得
         Vector3 pos = myTransform.position;
 
-        /*
         pos.x += 0f;    // x座標へ0加算
         pos.y += 0f;    // y座標へ1加算
         pos.z += 0f;    // z座標へ0加算
 
         myTransform.position = pos;//座標を設定
-        */
 
         // レイを生成
 
-        Ray northRay = new Ray(new Vector3(pos.x,pos.y+0.3f,pos.z), new Vector3(0,-5.0f,5.0f));
-        Ray southRay = new Ray(new Vector3(pos.x,pos.y+0.3f,pos.z), new Vector3(0,-5.0f,-5.0f));
-        Ray eastRay = new Ray(new Vector3(pos.x,pos.y+0.3f,pos.z), new Vector3(5,-5.0f,0));
-        Ray westRay = new Ray(new Vector3(pos.x,pos.y+0.3f,pos.z), new Vector3(-5,-5.0f,0));
+        Ray northRay = new Ray(new Vector3(pos.x,pos.y+0.1f,pos.z), new Vector3(0,-5.0f,5.0f));
+        Ray southRay = new Ray(transform.position, new Vector3(0,-5.0f,-5.0f));
+        Ray eastRay = new Ray(transform.position, new Vector3(5,-5.0f,0));
+        Ray westRay = new Ray(transform.position, new Vector3(-5,-5.0f,0));
 
+
+        /*
+        Ray northRay = new Ray(myTransform.position, new Vector3(0,-5.0f,5.0f));
+        Ray southRay = new Ray(myTransform.position, new Vector3(0,-5.0f,-5.0f));
+        Ray eastRay = new Ray(myTransform.position, new Vector3(5,-5.0f,0));
+        Ray westRay = new Ray(myTransform.position, new Vector3(-5,-5.0f,0));
+        */
 
         //レイが衝突したか判定する
         if (Physics.Raycast(northRay,out northRaycastHit, distance,mask,QueryTriggerInteraction.Collide))
@@ -103,11 +98,13 @@ public class CartMove : MonoBehaviour
 
 
     // Start is called before the first frame update
-
+    void Start()
+    {
+        DOVirtual.DelayedCall (3f, ()=>CartStart());//3秒遅延
+    }
 
     void CartStart()
     {
-        animator.SetBool("is_walking",true);
         Debug.Log("CartStart");
         this.gameObject.transform.DOLocalMove(new Vector3(0, 0, 0.8f), cartSpeed)
             .SetRelative()          //相対移動
@@ -185,11 +182,6 @@ public class CartMove : MonoBehaviour
                         .SetRelative()
                         .SetEase(Ease.Linear))
                 .Append(
-                    this.gameObject.transform.DOLocalRotate(new Vector3(0, -90f, 0), rotateSpeed)
-                        .SetRelative()
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
-                .Append(
                     this.gameObject.transform.DOLocalMove(new Vector3(-0.4f, 0, 0f), cartSpeed/2)
                         .SetRelative()          //相対移動
                         .SetEase(Ease.Linear)  //一定の速さ
@@ -210,11 +202,6 @@ public class CartMove : MonoBehaviour
                     this.gameObject.transform.DOLocalMove(new Vector3(0.6f, 0f, 0f), cartSpeed/2)
                         .SetRelative()
                         .SetEase(Ease.Linear))
-                .Append(
-                    this.gameObject.transform.DOLocalRotate(new Vector3(0, 90f, 0), rotateSpeed)
-                        .SetRelative()
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
                 .Append(
                     this.gameObject.transform.DOLocalMove(new Vector3(0f, 0, -0.4f), cartSpeed/2)
                         .SetRelative()          //相対移動
@@ -238,11 +225,6 @@ public class CartMove : MonoBehaviour
                         .SetRelative()
                         .SetEase(Ease.Linear))
                 .Append(
-                    this.gameObject.transform.DOLocalRotate(new Vector3(0, -90f, 0), rotateSpeed)
-                        .SetRelative()
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
-                .Append(
                     this.gameObject.transform.DOLocalMove(new Vector3(0f, 0, 0.4f), cartSpeed/2)
                         .SetRelative()          //相対移動
                         .SetEase(Ease.Linear)  //一定の速さ
@@ -264,11 +246,6 @@ public class CartMove : MonoBehaviour
                     this.gameObject.transform.DOLocalMove(new Vector3(0f, 0f, -0.6f), cartSpeed/2)
                         .SetRelative()
                         .SetEase(Ease.Linear))
-                .Append(
-                    this.gameObject.transform.DOLocalRotate(new Vector3(0, -90f, 0), rotateSpeed)
-                        .SetRelative()
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
                 .Append(
                     this.gameObject.transform.DOLocalMove(new Vector3(-0.4f, 0, 0f), cartSpeed/2)
                         .SetRelative()          //相対移動
@@ -293,11 +270,6 @@ public class CartMove : MonoBehaviour
                         .SetRelative()
                         .SetEase(Ease.Linear))
                 .Append(
-                    this.gameObject.transform.DOLocalRotate(new Vector3(0, -90f, 0), rotateSpeed)
-                        .SetRelative()
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
-                .Append(
                     this.gameObject.transform.DOLocalMove(new Vector3(0f, 0, -0.4f), cartSpeed/2)
                         .SetRelative()          //相対移動
                         .SetEase(Ease.Linear)  //一定の速さ
@@ -319,11 +291,6 @@ public class CartMove : MonoBehaviour
                     this.gameObject.transform.DOLocalMove(new Vector3(0f, 0f, 0.6f), cartSpeed/2)
                         .SetRelative()
                         .SetEase(Ease.Linear))
-                .Append(
-                    this.gameObject.transform.DOLocalRotate(new Vector3(0, 90f, 0), rotateSpeed)
-                        .SetRelative()
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
                 .Append(
                     this.gameObject.transform.DOLocalMove(new Vector3(0.4f, 0, 0f), cartSpeed/2)
                         .SetRelative()          //相対移動
@@ -347,11 +314,6 @@ public class CartMove : MonoBehaviour
                         .SetRelative()
                         .SetEase(Ease.Linear))
                 .Append(
-                    this.gameObject.transform.DOLocalRotate(new Vector3(0, 90f, 0), rotateSpeed)
-                        .SetRelative()
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
-                .Append(
                     this.gameObject.transform.DOLocalMove(new Vector3(0.4f, 0, 0f), cartSpeed/2)
                         .SetRelative()          //相対移動
                         .SetEase(Ease.Linear)  //一定の速さ
@@ -373,11 +335,6 @@ public class CartMove : MonoBehaviour
                     this.gameObject.transform.DOLocalMove(new Vector3(-0.6f, 0f, 0f), cartSpeed/2)
                         .SetRelative()
                         .SetEase(Ease.Linear))
-                .Append(
-                    this.gameObject.transform.DOLocalRotate(new Vector3(0, -90f, 0), rotateSpeed)
-                        .SetRelative()
-                        .SetEase(Ease.Linear)  //一定の速さ
-                        )
                 .Append(
                     this.gameObject.transform.DOLocalMove(new Vector3(0f, 0, 0.4f), cartSpeed/2)
                         .SetRelative()          //相対移動
