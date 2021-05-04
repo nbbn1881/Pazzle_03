@@ -70,11 +70,9 @@ public class GManager : MonoBehaviour
 
         score += Time.deltaTime;
         seconds = (int)score-3;
-        int score2 =900;
-        string scoreText2 = score2.ToString("D6") + "点";
         if(seconds>0)
         {
-            scoreText.text = scoreText2;
+            scoreText.text = score.ToString(“D7”);
         }
 
     }

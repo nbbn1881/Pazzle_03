@@ -16,6 +16,7 @@ public class GManager : MonoBehaviour
     private List<GameObject> PieceList = new List<GameObject>();//使うか未定
 
 
+
     private void Awake()
     {
         if (instance == null)
@@ -70,11 +71,9 @@ public class GManager : MonoBehaviour
 
         score += Time.deltaTime;
         seconds = (int)score-3;
-        int score2 =900;
-        string scoreText2 = score2.ToString("D6") + "点";
         if(seconds>0)
         {
-            scoreText.text = scoreText2;
+            scoreText.text = score.ToString("D5");
         }
 
     }
