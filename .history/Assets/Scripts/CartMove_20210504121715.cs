@@ -41,7 +41,7 @@ public class CartMove : MonoBehaviour
     void Update()
     {
         // レイを生成
-        Ray northRay = new Ray(transform.position, new Vector3(0,-5.0f,5.0f));
+        Ray northRay = new Ray(transform.position, new Vector3(0,-5.0,5.0f));
         Ray southRay = new Ray(transform.position, new Vector3(0,-5.0f,-5.0f));
         Ray eastRay = new Ray(transform.position, new Vector3(5,-5.0f,0));
         Ray westRay = new Ray(transform.position, new Vector3(-5,-5.0f,0));

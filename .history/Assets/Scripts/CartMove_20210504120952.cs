@@ -80,7 +80,9 @@ public class CartMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         DOVirtual.DelayedCall (3f, ()=>CartStart());//3秒遅延
+
     }
 
     void CartStart()

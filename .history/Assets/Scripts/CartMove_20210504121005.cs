@@ -81,6 +81,7 @@ public class CartMove : MonoBehaviour
     void Start()
     {
         DOVirtual.DelayedCall (3f, ()=>CartStart());//3秒遅延
+
     }
 
     void CartStart()

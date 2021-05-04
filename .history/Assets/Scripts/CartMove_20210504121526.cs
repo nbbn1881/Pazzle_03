@@ -7,7 +7,7 @@ using DG.Tweening;
 public class CartMove : MonoBehaviour
 {
 
-	Vector3 northRay = new Vector3(0,-5.0f,5.0f);	//北
+	Vector3 northRay = new Vector3(0,0.0f,5.0f);	//北
 	Vector3 southRay = new Vector3(0,-5.0f,-5.0f);	//南
 	Vector3 eastRay =  new Vector3(5,-5.0f,0);		//東
 	Vector3 westRay =  new Vector3(-5,-5.0f,0);		//西
