@@ -11,6 +11,8 @@ TagManager:
   - Piece_LeftToUp
   - Piece_RightToDown
   - Piece_RightToUp
+  - Ground
+  - Piece_Cross
   layers:
   - Default
   - TransparentFX

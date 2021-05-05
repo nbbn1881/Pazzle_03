@@ -31,7 +31,6 @@ public class GManager : MonoBehaviour
 
     void Dealing()//タイル初期配置
     {
-        Debug.Log("Dealing");
         float offsetX = 1.0f;
         float offsetZ = 1.0f;
         int number = 1;
@@ -39,7 +38,7 @@ public class GManager : MonoBehaviour
         {
             for( int j= 0; j<6; j++)
             {
-                number = Random.Range(0,7);
+                number = Random.Range(0,6);
                 //Vector3 position = new Vector3(j*offsetX,0.1f,i*offsetZ);
                 if(i == 0 && j == 2)
                 {
@@ -47,10 +46,8 @@ public class GManager : MonoBehaviour
                 }
                 else if(i == 3 && j == 2)
                 {/*empty*/}
-                else if(i==4 && j==4)
+                else if(i==6 && j==6)
                 {
-                    Debug.Log("i5j5");
-
                     Instantiate (PieceBase[2], new Vector3((j*offsetX)-2.5f,0.1f,(i*offsetZ)-2.5f),Quaternion.identity);
                 }
                 else

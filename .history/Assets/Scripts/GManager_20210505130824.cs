@@ -39,7 +39,7 @@ public class GManager : MonoBehaviour
         {
             for( int j= 0; j<6; j++)
             {
-                number = Random.Range(0,7);
+                number = Random.Range(0,6);
                 //Vector3 position = new Vector3(j*offsetX,0.1f,i*offsetZ);
                 if(i == 0 && j == 2)
                 {
@@ -52,6 +52,7 @@ public class GManager : MonoBehaviour
                     Debug.Log("i5j5");
 
                     Instantiate (PieceBase[2], new Vector3((j*offsetX)-2.5f,0.1f,(i*offsetZ)-2.5f),Quaternion.identity);
+                    Debug.Break();
                 }
                 else
                 {
