@@ -26,6 +26,7 @@ public class CartMove : MonoBehaviour
     RaycastHit underRaycastHit = default;
 
     GameObject underGameObject;//足元のオブジェクトを記憶
+    public GManagerScript GManagerScript;
 
 
 

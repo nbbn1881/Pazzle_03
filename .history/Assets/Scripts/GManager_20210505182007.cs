@@ -136,4 +136,3 @@ public class GManager : MonoBehaviour
             Debug.Log("オーディオソースが設定されていません");
         }
     }
-}

@@ -10,7 +10,7 @@ public class GManager : MonoBehaviour
     public Text scoreText; // スコアText
     private float score; // スコア
     int seconds;
-    public int[] pieces = new int[8];//ピースの数管理
+    int[] pieces = new int[8];//ピースの数管理
 
     public GameObject[] PieceBase;
     public Sprite[] PieceFaces;
@@ -136,4 +136,3 @@ public class GManager : MonoBehaviour
             Debug.Log("オーディオソースが設定されていません");
         }
     }
-}

@@ -425,7 +425,7 @@ public class CartMove : MonoBehaviour
             Debug.Log("GameOver");
             //TODO:シーン移動
         }
-        TileDestroy();
+        Regenerate();
 
         if(southRaycastHit.collider.gameObject.CompareTag("Piece_Vertical")
         || southRaycastHit.collider.gameObject.CompareTag("Piece_Cross"))
@@ -461,7 +461,6 @@ public class CartMove : MonoBehaviour
             Debug.Log("GameOver");
             //TODO:シーン移動
         }
-        TileDestroy();
 
         if(northRaycastHit.collider.gameObject.CompareTag("Piece_Vertical")
         || northRaycastHit.collider.gameObject.CompareTag("Piece_Cross"))
@@ -557,19 +556,15 @@ public class CartMove : MonoBehaviour
         }
     }
 
-    void TileDestroy()
-    {
-        //TODO:移動禁止処理
-        Debug.Log("Regenerate");
-        underGameObject = underRaycastHit.collider.gameObject;
-        GameObject rootGameObject = underGameObject.transform.root.gameObject;
-        DOVirtual.DelayedCall (3f, ()=>Destroy (rootGameObject));//3秒遅延
-        DOVirtual.DelayedCall (3f, ()=>Regenerate ());//3秒遅延
-        //TODO:移動OK処理
-    }
-
     void Regenerate()
     {
+
+        Debug.Log("Regenerate");
+        if (Physics.Raycast(underRay,out underRaycastHit, distance,mask,QueryTriggerInteraction.Collide))
+        {
+            underGameObject = underRaycastHit.collider.gameObject;
+
+        }
 
     }
 }
