@@ -10,6 +10,7 @@ public class GManager : MonoBehaviour
     public Text scoreText; // スコアText
     private float score; // スコア
     int seconds;
+    int[] pieces = new int[8];//ピースの数管理
 
     public GameObject[] PieceBase;
     public Sprite[] PieceFaces;
@@ -41,25 +42,60 @@ public class GManager : MonoBehaviour
             {
                 number = Random.Range(0,7);
                 //Vector3 position = new Vector3(j*offsetX,0.1f,i*offsetZ);
-                if(i == 0 && j == 2)
+                if(i == 0 && j == 0)
+                {
+                    Instantiate (PieceBase[2], new Vector3((j*offsetX)-2.5f,0.1f,(i*offsetZ)-2.5f),Quaternion.identity);
+                    PieceCounter(2);
+                }
+
+                else if(i == 0 && j == 2)
                 {
                     Instantiate (PieceBase[1], new Vector3((j*offsetX)-2.5f,0.1f,(i*offsetZ)-2.5f),Quaternion.identity);
+                    PieceCounter(1);
+                }
+                else if(i == 0 && j == 5)
+                {
+                    Instantiate (PieceBase[4], new Vector3((j*offsetX)-2.5f,0.1f,(i*offsetZ)-2.5f),Quaternion.identity);
+                    PieceCounter(4);
                 }
                 else if(i == 3 && j == 2)
                 {/*empty*/}
-                else if(i==4 && j==4)
+                else if(i==5 && j==0)
+                {
+                    Debug.Log("i5j0");
+
+                    Instantiate (PieceBase[3], new Vector3((j*offsetX)-2.5f,0.1f,(i*offsetZ)-2.5f),Quaternion.identity);
+                    PieceCounter(3);
+                }
+                else if(i==5 && j==5)
                 {
                     Debug.Log("i5j5");
 
-                    Instantiate (PieceBase[2], new Vector3((j*offsetX)-2.5f,0.1f,(i*offsetZ)-2.5f),Quaternion.identity);
+                    Instantiate (PieceBase[5], new Vector3((j*offsetX)-2.5f,0.1f,(i*offsetZ)-2.5f),Quaternion.identity);
+                    PieceCounter(5);
                 }
                 else
                 {
+                    //ピース再抽選
+                    while(pieces[number] > 7)
+                    {
+                        Debug.Log(pieces[number]);
+                        Debug.Log("再抽選");
+                        number = Random.Range(0,7);
+                    }
                     Instantiate (PieceBase[number], new Vector3((j*offsetX)-2.5f,0.1f,(i*offsetZ)-2.5f),Quaternion.identity);
+                    PieceCounter(number);
                 }
 
             }
         }
+
+    }
+    void PieceCounter(int n)
+    {
+        pieces[n]+=1;
+
+        Debug.Log("pieces"+n+"="+pieces[n]+"個目");
 
     }
 
